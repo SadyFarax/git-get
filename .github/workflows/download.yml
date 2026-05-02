@@ -3,19 +3,17 @@ name: Multi Downloader
 on:
   workflow_dispatch:
     inputs:
-      tasks_json:
-        description: 'JSON array of tasks (direct/git/website)'
+      commands:
+        description: 'Commands (one per line): wget <url> [o=name] / git <url> [b=branch] [d=dest] [lfs=true] [depth=1] / mirror <url> [o=outdir] [depth=1000]'
         required: true
         type: string
         default: |
-          [
-            {"type":"direct","url":"https://example.com/file.zip"}
-          ]
-      output_zip:
-        description: 'Output ZIP file name'
+          wget https://filesamples.com/samples/document/txt/sample1.txt
+      out_zip:
+        description: 'Output ZIP name'
         required: false
         type: string
-        default: 'final_download.zip'
+        default: 'out.zip'
 
 jobs:
   download:
@@ -27,12 +25,12 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: pip install requests beautifulsoup4 lxml
-      - name: Run downloader
+      - name: Run
         env:
-          TASKS_JSON: ${{ github.event.inputs.tasks_json }}
-          ZIP_NAME: ${{ github.event.inputs.output_zip }}
+          CMDS: ${{ github.event.inputs.commands }}
+          ZIP: ${{ github.event.inputs.out_zip }}
         run: python downloader.py
       - uses: actions/upload-artifact@v4
         with:
-          name: downloaded-files
-          path: ${{ github.event.inputs.output_zip }}
+          name: result
+          path: ${{ github.event.inputs.out_zip }}
