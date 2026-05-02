@@ -1,0 +1,25 @@
+name: Multi Downloader
+on: workflow_dispatch
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4 lxml
+      - name: Run downloader
+        env:
+          TASKS_JSON: |
+            [
+              {"type":"direct","url":"https://example.com/file.zip"},
+              {"type":"git","repo":"https://huggingface.co/bert-base-uncased","branch":"main","lfs":true},
+              {"type":"website","url":"https://example-docs.com","output_dir":"docs_mirror"}
+            ]
+        run: python downloader.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: downloaded-files
+          path: final_download.zip
