@@ -1,5 +1,22 @@
 name: Multi Downloader
-on: workflow_dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      tasks_json:
+        description: 'JSON array of tasks (direct/git/website)'
+        required: true
+        type: string
+        default: |
+          [
+            {"type":"direct","url":"https://example.com/file.zip"}
+          ]
+      output_zip:
+        description: 'Output ZIP file name'
+        required: false
+        type: string
+        default: 'final_download.zip'
+
 jobs:
   download:
     runs-on: ubuntu-latest
@@ -12,14 +29,10 @@ jobs:
         run: pip install requests beautifulsoup4 lxml
       - name: Run downloader
         env:
-          TASKS_JSON: |
-            [
-              {"type":"direct","url":"https://example.com/file.zip"},
-              {"type":"git","repo":"https://huggingface.co/bert-base-uncased","branch":"main","lfs":true},
-              {"type":"website","url":"https://example-docs.com","output_dir":"docs_mirror"}
-            ]
+          TASKS_JSON: ${{ github.event.inputs.tasks_json }}
+          ZIP_NAME: ${{ github.event.inputs.output_zip }}
         run: python downloader.py
       - uses: actions/upload-artifact@v4
         with:
           name: downloaded-files
-          path: final_download.zip
+          path: ${{ github.event.inputs.output_zip }}
