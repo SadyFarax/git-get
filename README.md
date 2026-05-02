@@ -22,7 +22,7 @@ markdown
 | دستور     | کاربرد                           | فرمت کلی                                                      | مثال |
 |-----------|----------------------------------|----------------------------------------------------------------|------|
 | `wget`    | دانلود مستقیم فایل               | `wget <لینک> [o=نام‌خروجی]`                                   | `wget https://example.com/file.zip o=data.zip` |
-| `git`     | کلون مخزن Git (مدل‌های HF)       | `git <آدرس> [b=شاخه] [d=پوشه] [lfs=true] [depth=1]`           | `git https://huggingface.co/bert-base-uncased b=main d=bert lfs=true` |
+| `git`     | کلون مخزن Git (هاگینگ فیس و گیت)       | `git <آدرس> [b=شاخه] [d=پوشه] [lfs=true] [depth=1]`           | `git https://huggingface.co/bert-base-uncased b=main d=bert lfs=true` |
 | `mirror`  | آینه‌سازی (کپی کامل) یک سایت      | `mirror <آدرس> [o=پوشه] [depth=1000]`                         | `mirror https://docs.python.org/3/ o=py_docs depth=500` |
 
 **توضیح پارامترهای اختیاری:**
