@@ -147,7 +147,7 @@ def m(url, out='site_mirror', depth=1000):
                         with open(cp, 'w', encoding='utf-8') as f:
                             f.write(ncss)
     l("mirror done")
-
+#by mhan / Salist Labs 2026
 def main():
     raw = os.environ.get('CMDS', '')
     lines = [ln.strip() for ln in raw.split('\n') if ln.strip() and not ln.strip().startswith('#')]
